@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motivational Quotes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      width: 50%;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 1.5em;
+      margin: 10px 0;
+    }
+
+    form {
+      margin: 20px 0;
+    }
+
+    .btn {
+      background-color: #ffffff;
+      color: #6a11cb;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #7e34cc;
+      color: #ffffff;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Motivational Quotes</h1>
+    <form onsubmit="fetchQuote()">
+      <input type="submit" value="Get Message" class="btn"/>
+    </form>
+    <hr>
+    <div id="quote">
+      <h2></h2>
+    </div>
+    <div id="auth">
+      <h2></h2>
+    </div>
+  </div>
+
+  <script>
+     async function fetchQuote() {
+      event.preventDefault();
+      try {
+        const response = await fetch('https://type.fit/api/quotes');
+        const data =  await response.json();
+        console.log(data);
+        const randomQuote = data[Math.floor(Math.random() * data.length)];
+        document.getElementById('quote').innerHTML = `<h2>"${randomQuote.text}"</h2>`;
+        document.getElementById('auth').innerHTML = `<h2>${randomQuote.author ? `- ${randomQuote.author}` : '- Unknown'}</h2>`;
+      } catch (error) {
+        console.error('Error fetching the quote', error);
+      }
+    }
+  </script>
+</body>
+</html>
